@@ -1,135 +1,54 @@
+import java.util.List;
 
-public class TennisGame2 implements TennisGame
-{
-    public int P1point = 0;
-    public int P2point = 0;
-    
-    public String P1res = "";
-    public String P2res = "";
-    private String player1Name;
-    private String player2Name;
+import static java.util.Arrays.asList;
+
+public class TennisGame2 implements TennisGame {
+
+    private int puntajeP1 = 0;
+    private int puntajeP2 = 0;
+    private static final List<String> RESULTADOS = asList("Love", "Fifteen", "Thirty", "Forty", "Deuce");
+
+    private final String jugador1;
+    private final String jugador2;
 
     public TennisGame2(String player1Name, String player2Name) {
-        this.player1Name = player1Name;
-        this.player2Name = player2Name;
+        this.jugador1 = player1Name;
+        this.jugador2 = player2Name;
     }
 
-    public String getScore(){
-        String score = "";
-        if (P1point == P2point && P1point < 4)
-        {
-            if (P1point==0)
-                score = "Love";
-            if (P1point==1)
-                score = "Fifteen";
-            if (P1point==2)
-                score = "Thirty";
-            score += "-All";
-        }
-        if (P1point==P2point && P1point>=3)
-            score = "Deuce";
-        
-        if (P1point > 0 && P2point==0)
-        {
-            if (P1point==1)
-                P1res = "Fifteen";
-            if (P1point==2)
-                P1res = "Thirty";
-            if (P1point==3)
-                P1res = "Forty";
-            
-            P2res = "Love";
-            score = P1res + "-" + P2res;
-        }
-        if (P2point > 0 && P1point==0)
-        {
-            if (P2point==1)
-                P2res = "Fifteen";
-            if (P2point==2)
-                P2res = "Thirty";
-            if (P2point==3)
-                P2res = "Forty";
-            
-            P1res = "Love";
-            score = P1res + "-" + P2res;
-        }
-        
-        if (P1point>P2point && P1point < 4)
-        {
-            if (P1point==2)
-                P1res="Thirty";
-            if (P1point==3)
-                P1res="Forty";
-            if (P2point==1)
-                P2res="Fifteen";
-            if (P2point==2)
-                P2res="Thirty";
-            score = P1res + "-" + P2res;
-        }
-        if (P2point>P1point && P2point < 4)
-        {
-            if (P2point==2)
-                P2res="Thirty";
-            if (P2point==3)
-                P2res="Forty";
-            if (P1point==1)
-                P1res="Fifteen";
-            if (P1point==2)
-                P1res="Thirty";
-            score = P1res + "-" + P2res;
-        }
-        
-        if (P1point > P2point && P2point >= 3)
-        {
-            score = "Advantage player1";
-        }
-        
-        if (P2point > P1point && P1point >= 3)
-        {
-            score = "Advantage player2";
-        }
-        
-        if (P1point>=4 && P2point>=0 && (P1point-P2point)>=2)
-        {
-            score = "Win for player1";
-        }
-        if (P2point>=4 && P1point>=0 && (P2point-P1point)>=2)
-        {
-            score = "Win for player2";
-        }
-        return score;
+    public String getScore() {
+
+        if (puntajeP1 == puntajeP2) return deadHead();
+        else if (puntajeP2 < 4 && puntajeP1 < 4) return gapScore();
+        return headScore();
+
     }
-    
-    public void SetP1Score(int number){
-        
-        for (int i = 0; i < number; i++)
-        {
-            P1Score();
-        }
-            
+
+    private String headScore() {
+        return Math.abs( puntajeP1 - puntajeP2) ==1 ? "Advantage " + selectPlayerHead() : "Win for "+ selectPlayerHead();
+
     }
-    
-    public void SetP2Score(int number){
-        
-        for (int i = 0; i < number; i++)
-        {
-            P2Score();
-        }
-            
+
+    private String selectPlayerHead() {
+        String selectPlayer;
+        if (puntajeP1 > puntajeP2) selectPlayer = jugador1;
+        else selectPlayer = jugador2;
+        return selectPlayer;
     }
-    
-    public void P1Score(){
-        P1point++;
+
+    private String gapScore() {
+        return RESULTADOS.get(puntajeP1) + "-" + RESULTADOS.get(puntajeP2);
     }
-    
-    public void P2Score(){
-        P2point++;
+
+    private String deadHead() {
+        if (puntajeP1 < 3) return RESULTADOS.get(puntajeP1) + "-All";
+        return "Deuce";
     }
 
     public void wonPoint(String player) {
-        if (player == "player1")
-            P1Score();
+        if (player.equals("player1") )
+            puntajeP1++;
         else
-            P2Score();
+            puntajeP2++;
     }
 }
