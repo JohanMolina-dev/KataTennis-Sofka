@@ -6,7 +6,7 @@ public class TennisGame2 implements TennisGame {
 
     private int puntajeP1 = 0;
     private int puntajeP2 = 0;
-    private static final List<String> RESULTADOS = asList("Love", "Fifteen", "Thirty", "Forty", "Deuce");
+    private static final List<String> LIST_RESULTADOS = asList("Love", "Fifteen", "Thirty", "Forty", "Deuce");
 
     private final String jugador1;
     private final String jugador2;
@@ -23,12 +23,12 @@ public class TennisGame2 implements TennisGame {
         return headScore();
 
     }
-
+    //Extracción de Método
     private String headScore() {
         return Math.abs( puntajeP1 - puntajeP2) ==1 ? "Advantage " + selectPlayerHead() : "Win for "+ selectPlayerHead();
 
     }
-
+    //Extracción de Método
     private String selectPlayerHead() {
         String selectPlayer;
         if (puntajeP1 > puntajeP2) selectPlayer = jugador1;
@@ -37,11 +37,11 @@ public class TennisGame2 implements TennisGame {
     }
 
     private String gapScore() {
-        return RESULTADOS.get(puntajeP1) + "-" + RESULTADOS.get(puntajeP2);
+        return LIST_RESULTADOS.get(puntajeP1) + "-" + LIST_RESULTADOS.get(puntajeP2);
     }
 
     private String deadHead() {
-        if (puntajeP1 < 3) return RESULTADOS.get(puntajeP1) + "-All";
+        if (puntajeP1 < 3) return LIST_RESULTADOS.get(puntajeP1) + "-All";
         return "Deuce";
     }
 

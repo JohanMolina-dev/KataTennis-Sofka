@@ -1,40 +1,48 @@
 
 public class TennisGame1 implements TennisGame {
     
-    private int marks1 = 0;
-    private int marks2 = 0;
+    private int puntajeP1 = 0;
+    private int puntajeP2 = 0;
 
     public void wonPoint(String playerName) {
         if (playerName.equals("player1"))
-            marks1 += 1;
+            puntajeP1 += 1;
         else
-            marks2 += 1;
+            puntajeP2 += 1;
     }
 
     public String getScore() {
         String score = "";
-        if (marks1 == marks2)
+        if (equalPoints(puntajeP1, puntajeP2))
         {
             score = getEquals();
         }
-        else if (marks1>=4 || marks2>=4)
+        else if (deuce())
         {
             score = greaterFour();
         }
         else
         {
-            score = factor1(score, marks1);
+            score = partidoNormal(score, puntajeP1);
             score+="-";
-            score = factor1(score, marks2);
+            score = partidoNormal(score, puntajeP2);
             }
         return score;
         }
 
+    private boolean deuce() {
+        return puntajeP1 >= 4 || puntajeP2 >= 4;
+    }
+
+    private boolean equalPoints(int puntajeP1, int puntajeP2) {
+        return puntajeP1 == puntajeP2;
+    }
+
     private String greaterFour() {
         String score;
-        int minusResult = marks1-marks2;
-        if (minusResult==1) score ="Advantage player1";
-        else if (minusResult ==-1) score ="Advantage player2";
+        int minusResult = puntajeP1 - puntajeP2;
+        if (equalPoints(minusResult, 1)) score ="Advantage player1";
+        else if (equalPoints(minusResult, -1)) score ="Advantage player2";
         else if (minusResult>=2) score = "Win for player1";
         else score ="Win for player2";
         return score;
@@ -42,7 +50,7 @@ public class TennisGame1 implements TennisGame {
 
     private String getEquals() {
         String score;
-        switch (marks1)
+        switch (puntajeP1)
         {
             case 0:
                     score = "Love-All";
@@ -62,7 +70,7 @@ public class TennisGame1 implements TennisGame {
     }
 
 
-    private String factor1(String score, int marks) {
+    private String partidoNormal(String score, int marks) {
         switch(marks)
         {
             case 0:
@@ -77,6 +85,8 @@ public class TennisGame1 implements TennisGame {
             case 3:
                 score +="Forty";
                 break;
+            default:
+                return score;
 
 
         }
